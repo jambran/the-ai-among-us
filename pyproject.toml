@@ -9,9 +9,18 @@ packages = [{include = "src/ai_among_us"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+
+
+[tool.poetry.group.frontend.dependencies]
+streamlit = "^1.23.1"
+
+
+[tool.poetry.group.backend.dependencies]
 fastapi = "^0.96.0"
 uvicorn = "^0.22.0"
 
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3.1"
 
 [build-system]
 requires = ["poetry-core"]
