@@ -9,6 +9,7 @@ packages = [{include = "src/ai_among_us"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+dynaconf = "^3.2.4"
 
 
 [tool.poetry.group.frontend.dependencies]
