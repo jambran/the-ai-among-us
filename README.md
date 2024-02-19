@@ -6,5 +6,5 @@ This repo holds code to run the game The AI Among Us.
 
 For local development, install the python package with 
 ```
-poetry install .
+poetry install
 ```
