@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "ai-among-us"
+version = "0.1.0"
+description = "Play a game with your friends. Can you distinguish the AI from your friends?"
+authors = ["Jamie Brandon <jamie.brandon@dictionary.com>"]
+readme = "README.md"
+repository = "https://github.com/jambran/the-ai-among-us"
+packages = [{include = "src/ai_among_us"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.frontend.dependencies]
+streamlit = "^1.23.1"
+watchdog = "^3.0.0"
+
+
+[tool.poetry.group.backend.dependencies]
+fastapi = "^0.96.0"
+uvicorn = "^0.22.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
