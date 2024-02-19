@@ -1,0 +1,12 @@
+[default]
+pygame_server_address = ""
+pygame_server_port = 5555
+
+
+[local]
+
+[dev]
+
+[qa]
+
+[prod]
