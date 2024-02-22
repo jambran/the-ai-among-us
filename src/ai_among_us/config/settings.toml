@@ -1,6 +1,6 @@
 [default]
-pygame_server_address = ""
-pygame_server_port = 5555
+gameplay_server_address = ""
+gameplay_server_port = 5555
 
 
 [local]
