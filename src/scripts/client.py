@@ -1,57 +1,78 @@
+import json
 import logging
 
 from src.ai_among_us.gameplay import (
     Network,
-    Player,
+    Button,
 )
 import pygame
 
+from src.ai_among_us.gameplay.game import GameInfo
 
 pygame.font.init()
 
 width = 700
 height = 700
 win = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Client")
+pygame.display.set_caption("The AI Among Us")
 
-def main():
+lobby_buttons = [
+    Button("Join", 500, 500, (0, 0, 0)),
+]
+
+
+def get_center_x_coordinate(text):
+    return width / 2 - text.get_width() / 2
+
+
+def get_center_y_coordinate(text):
+    return height / 2 - text.get_height() / 2
+
+
+def draw_lobby(win, game: GameInfo):
+    win.fill((128, 128, 128))
+
+    # show title
+    font = pygame.font.SysFont("comicsans", 80)
+    text = font.render("Lobby", 1, (255, 0, 0), True)
+    win.blit(
+        text,
+        (get_center_x_coordinate(text), 100),
+    )
+
+    # show join code
+    font = pygame.font.SysFont("comicsans", 50)
+    text = font.render(f"Invite friends: {game.id}", 1, (255, 0, 0), True)
+    win.blit(
+        text,
+        (get_center_x_coordinate(text), get_center_y_coordinate(text)),
+    )
+
+    # create text box for user to input name
+    input_box = font.render("", True, (0, 0, 0))
+    win.blit(input_box, (100, 10))
+
+    # enter button?
+    for button in lobby_buttons:
+        button.draw(win)
+
+    pygame.display.update()
+
     run = True
-    clock = pygame.time.Clock()
+    while run:
+        user_name = ""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+
+def play():
     n = Network()
     game = n.game
     logging.info(f"Received game from server: {game}")
+    game_info = GameInfo.parse_obj(json.loads(game))
 
-    while run:
-        clock.tick(60)
-        try:
-            game = n.send("get")
-        except:
-            run = False
-            logging.info("Couldn't get game")
-            break
-        break
-
-
-def menu_screen():
-    run = True
-    clock = pygame.time.Clock()
-
-    while run:
-        clock.tick(60)
-        win.fill((128, 128, 128))
-        font = pygame.font.SysFont("comicsans", 60)
-        text = font.render("Click to Play!", 1, (255,0,0))
-        win.blit(text, (100,200))
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                run = False
-
-    main()
+    draw_lobby(win, game_info)
 
 
 if __name__ == '__main__':
@@ -61,5 +82,4 @@ if __name__ == '__main__':
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
     logging.info("Starting client...")
-    while True:
-        menu_screen()
+    play()
