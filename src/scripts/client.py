@@ -52,7 +52,7 @@ def draw_lobby(win, game: GameInfo):
     input_box = font.render("", True, (0, 0, 0))
     win.blit(input_box, (100, 10))
 
-    # enter button?
+    # enter button
     for button in lobby_buttons:
         button.draw(win)
 
@@ -60,7 +60,6 @@ def draw_lobby(win, game: GameInfo):
 
     run = True
     while run:
-        user_name = ""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
