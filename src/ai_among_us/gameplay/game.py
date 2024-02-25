@@ -1,7 +1,7 @@
 from random import random
 
-from .player import Player
-from pydantic import BaseModel
+from .player import PlayerInfo
+from pydantic import BaseModel, Field
 from pathlib import Path
 
 def load_default_responses():
@@ -17,9 +17,30 @@ class Vote(BaseModel):
     response_string: str
 
 
+class GameInfo(BaseModel):
+    """
+    Object to hold all state regarding a game
+    """
+    players: list[PlayerInfo] = Field(default_factory=list)
+
+    # status to indicate whether gameplay has started
+    are_all_players_in: bool = False
+
+    # initially none, to be filled by player when game starts
+
+    prompt: str = None
+
+    # responses are stored on the player object
+    votes: list[Vote] = Field(default_factory=list)
+
+    # maps player name to times they identified the ai correctly
+    points: dict[str, int] = Field(default_factory=dict)
+
 
 class Game:
     """
+    Object to hold all behavior for updating a GameInfo object
+
     For now, an entire game consists of:
 
     Lobby:
@@ -38,29 +59,19 @@ class Game:
     """
     default_responses = load_default_responses()
     def __init__(self):
-        self.players: list[Player] = []
-        # status to indicate whether gameplay has started
-        self.are_all_players_in = False
-
-        self.prompt = None  # initially none, to be filled by player when game starts
-
-        # responses are stored on the player object
-        self.votes = list[Vote]
-
-        # maps player name to times they identified the ai correctly
-        self.points: dict[str, int] = {}
+        self.game_info = GameInfo()
 
 
-    def add_player(self, player: Player):
-        self.players.append(player)
-        self.points[player.name] = 0
+    def add_player(self, player: PlayerInfo):
+        self.game_info.players.append(player)
+        self.game_info.points[player.name] = 0
 
 
     def start(self):
-        self.are_all_players_in = True
+        self.game_info.are_all_players_in = True
 
     def set_prompt(self, prompt: str):
-        self.prompt = prompt
+        self.game_info.prompt = prompt
 
     def _fetch_prompt_from_default_list(self):
         return random.choice(self.default_responses)
