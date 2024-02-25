@@ -1,11 +1,16 @@
 import uuid
+from pydantic import BaseModel
 
-
+class PlayerInfo(BaseModel):
+    name: str
+    id: uuid.UUID
 
 class Player:
     def __init__(self, name: str):
-        self.name = name
-        self.id = uuid.uuid4()
+        self.player_info = PlayerInfo(
+            id=uuid.uuid4(),
+            name=name,
+        )
 
 
     def submit_gameplay_prompt(self):
