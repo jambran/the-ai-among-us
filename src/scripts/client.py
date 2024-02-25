@@ -67,6 +67,8 @@ def draw_lobby(win, game: GameInfo):
 
 
 def play():
+
+    # todo - create game or join game path. Right now, only create new game.
     n = Network()
     game = n.game
     logging.info(f"Received game from server: {game}")
