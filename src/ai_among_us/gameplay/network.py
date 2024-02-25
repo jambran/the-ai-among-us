@@ -1,7 +1,7 @@
-import logging
 import socket
 
 from src.ai_among_us.config import settings
+from src.utils.exception_logging import log_exception
 
 
 class Network:
@@ -12,19 +12,15 @@ class Network:
         self.address = (self.server, self.port)
         self.game = self.connect()
 
-    def connect(self):
-        try:
-            self.client.connect(self.address)
-            communication = self.client.recv(2048 * 2).decode()
-            return communication
-        except socket.error as e:
-            logging.error(e)
-            raise e
 
+    @log_exception
+    def connect(self):
+        self.client.connect(self.address)
+        communication = self.client.recv(2048 * 2).decode()
+        return communication
+
+    @log_exception
     def send(self, data):
-        try:
-            self.client.send(str.encode(data))
-            return self.client.recv(2048).decode()
-        except socket.error as e:
-            logging.error(e)
-            raise e
+        self.client.send(str.encode(data))
+        communication = self.client.recv(2048).decode()
+        return communication
