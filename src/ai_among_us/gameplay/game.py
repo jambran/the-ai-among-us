@@ -21,6 +21,7 @@ class GameInfo(BaseModel):
     """
     Object to hold all state regarding a game
     """
+    id: str
     players: list[PlayerInfo] = Field(default_factory=list)
 
     # status to indicate whether gameplay has started
@@ -58,8 +59,8 @@ class Game:
     - points are tallied?
     """
     default_responses = load_default_responses()
-    def __init__(self):
-        self.game_info = GameInfo()
+    def __init__(self, id_: str):
+        self.game_info = GameInfo(id=id_)
 
 
     def add_player(self, player: PlayerInfo):
