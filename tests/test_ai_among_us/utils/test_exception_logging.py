@@ -16,7 +16,7 @@ def test_exception_logging(caplog):
 
     try:
         function_that_will_error()
-    except ZeroDivisionError as e:
+    except ZeroDivisionError:
         pass
 
     assert "ZeroDivisionError" in caplog.text
