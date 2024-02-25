@@ -1,7 +1,6 @@
 import logging
 import socket
 from _thread import start_new_thread
-import pickle
 import random
 
 from src.ai_among_us.config import settings
@@ -15,7 +14,7 @@ def threaded_client(conn, game):
     conn.send(str.encode(game.game_info.json()))
     # conn.send(str.encode(str(game)))
 
-    reply = ""
+    # reply = ""
     # while True:
     #     try:
     #         data = conn.recv(4096).decode()
