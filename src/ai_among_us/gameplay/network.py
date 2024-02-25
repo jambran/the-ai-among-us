@@ -7,8 +7,8 @@ from src.ai_among_us.config import settings
 class Network:
     def __init__(self):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = settings.pygame_server_address
-        self.port = settings.pygame_server_port
+        self.server = settings.GAMEPLAY_SERVER_ADDRESS
+        self.port = settings.GAMEPLAY_SERVER_PORT
         self.address = (self.server, self.port)
 
     def connect(self):
