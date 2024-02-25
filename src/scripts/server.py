@@ -2,9 +2,12 @@ import logging
 import socket
 from _thread import start_new_thread
 import pickle
+import random
 
 from src.ai_among_us.config import settings
 from src.ai_among_us.gameplay.game import Game
+
+CAPTIAL_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
 def threaded_client(conn, game):
@@ -43,6 +46,14 @@ def threaded_client(conn, game):
     # idCount -= 1
     conn.close()
 
+
+def create_game_id():
+    character_choices = random.choices(CAPTIAL_LETTERS, k=4)
+    # todo - we'll need to make sure the id is unique when we get to a server hosting multiple games
+    id_ = r"".join(character_choices)
+    return id_
+
+
 def main():
     server = settings.gameplay_server_address
     port = settings.gameplay_server_port
@@ -61,7 +72,9 @@ def main():
         conn, addr = s.accept()
         logging.info(f"Connected to: {addr}")
 
-        new_game = Game()
+        id_ = create_game_id()
+
+        new_game = Game(id_)
         logging.info(f"New game created: {new_game.game_info.dict()}")
 
         start_new_thread(threaded_client, (conn, new_game))
